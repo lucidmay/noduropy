@@ -1,0 +1,20 @@
+[package]
+name = "noduropy"
+version = "0.0.0"
+version_message = ""
+description = ""
+authors = []
+
+[environment.tests]
+variable = "PYTHONPATH"
+value = "{root}/tests"
+action = "Append"
+
+[environment.houdini]
+variable = "PATH"
+value = "C:/Program Files/Side Effects Software/Houdini 20.5.314/bin"
+action = "Append"
+
+[command.houdini20]
+script = "houdini"
+env = ["tests", "houdini"]
