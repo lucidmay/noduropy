@@ -1,0 +1,15 @@
+[package]
+name = "noduropy"
+version = "0.0.0"
+version_message = ""
+description = ""
+authors = []
+
+[environment.temp]
+variable = "PATH"
+value = "{root}/bin"
+action = "Define"
+
+[command.temp]
+script = "houdini"
+env = ["PATH", "PYTHONPATH"]
