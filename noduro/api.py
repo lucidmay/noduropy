@@ -1,5 +1,6 @@
 import requests
 from noduro.entity.nodes import Node
+from noduro.entity.publish import Publish, PublishStatus
 
 class APIClient:
     def __init__(self, port=4647, api_key=None):
@@ -29,12 +30,30 @@ class APIClient:
     
     def create_component_node(self, name, parent_node_tb, parent_node_id):
         return self._make_request("POST", "/node/create_component", json={"name": name, "parent_node_tb": parent_node_tb, "parent_node_id": parent_node_id})
+    
+    def publish_new(self, publish: Publish):
+        print(publish.to_json())
+        return self._make_request("POST", "/node/publish", json=publish.to_json())
 
 
 if __name__ == "__main__":
     api_client = APIClient()
-    node_id = {'tb': 'nodes-1b64faa8-ed3a-48cd-98ab-ffbbeb9d9bde', 'id': {'String': '@root/show:triplets'}}
-    node = api_client.get_node(node_id)
-    print(node)
-    # print(api_client.get_roots())
-    # print(api_client.get_node(node_id))
+    # node_id = {'tb': 'nodes-1b64faa8-ed3a-48cd-98ab-ffbbeb9d9bde', 'id': {'String': '@root/show:triplets'}}
+    # node = api_client.get_node(node_id)
+    # print(node)
+
+
+    # publish
+    publish = Publish.new(
+        userid=None,
+        comment="test",
+        entries={"assembly": "assembly.usda"},
+        status=PublishStatus.PUBLISHED,
+        version=None,
+        software="houdini",
+        thumbnail="thumbnail.png",
+        metadata={"assembly": "assembly.usda"},
+    )
+
+    res = api_client.publish_new(publish)
+    print(res)

@@ -17,7 +17,7 @@ class Thing:
         return cls(tb=tb, id=Id(String=id))
 
     def to_json(self) -> str:
-        return json.dumps(self, default=lambda o: o.__dict__, indent=4)
+        return json.dumps(self, default=lambda o: o.__dict__)
 
 
 if __name__ == "__main__":
