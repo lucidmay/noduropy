@@ -16,8 +16,11 @@ class Thing:
     def from_str(cls, tb: str, id: str):
         return cls(tb=tb, id=Id(String=id))
 
-    def to_json(self) -> str:
-        return json.dumps(self, default=lambda o: o.__dict__)
+    def to_json(self) -> dict:
+        return {
+            "tb": self.tb,
+            "id": {"String": self.id.String}
+        }
 
 
 if __name__ == "__main__":

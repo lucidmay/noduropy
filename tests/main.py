@@ -3,7 +3,8 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from noduro.api import APIClient
-from noduro.entity.publish import Publish, PublishStatus
+from noduro.entity.version import Version, VersionStatus
+from noduro.entity.utils import Thing
 
 
 def main():
@@ -18,18 +19,22 @@ def main():
     # res = client.create_component_node(name, parent_node_tb, parent_node_id)
     # print(res)
 
-    publish = Publish.new(
+    publish = Version.new(
+        version=0,
         userid=None,
         comment="test",
         entries={"assembly": "assembly.usda"},
-        status=PublishStatus.Active,
-        version=None,
+        status=VersionStatus.Active,
         software="houdini",
         thumbnail="thumbnail.png",
         metadata={"assembly": "assembly.usda"},
+        properties={},
     )
 
-    res = client.publish_new(publish)
+    fullpath = "nodes-56b354c9-492d-4218-b90b-d86598c802ca&@root/crate1:wink/renders"
+    tb, id = fullpath.split("&")
+    component_node_id = Thing.from_str(tb, id)
+    res = client.publish_new(publish, component_node_id)
     print(res)
 
 if __name__ == "__main__":

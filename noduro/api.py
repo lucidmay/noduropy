@@ -1,6 +1,7 @@
 import requests
 from noduro.entity.nodes import Node
-from noduro.entity.publish import Publish, PublishStatus
+from noduro.entity.version import Version, VersionStatus
+from noduro.entity.utils import Thing
 
 class APIClient:
     def __init__(self, port=4647, api_key=None):
@@ -31,9 +32,14 @@ class APIClient:
     def create_component_node(self, name, parent_node_tb, parent_node_id):
         return self._make_request("POST", "/node/create_component", json={"name": name, "parent_node_tb": parent_node_tb, "parent_node_id": parent_node_id})
     
-    def publish_new(self, publish: Publish):
-        print(publish.to_json())
-        return self._make_request("POST", "/node/publish", json=publish.to_json())
+    def publish_new(self, version: Version, component_node_id: Thing):
+        data = {
+            "version": version.to_json(),
+            "component_node_id": component_node_id.to_json()
+        }
+        print(version.to_json())
+        return self._make_request("POST", "/node/component/publish", json=data)
+
 
 
 if __name__ == "__main__":
@@ -43,17 +49,17 @@ if __name__ == "__main__":
     # print(node)
 
 
-    # publish
-    publish = Publish.new(
+    # version
+    version = Version.new(
         userid=None,
         comment="test",
         entries={"assembly": "assembly.usda"},
-        status=PublishStatus.PUBLISHED,
+        status=VersionStatus.PUBLISHED,
         version=None,
         software="houdini",
         thumbnail="thumbnail.png",
         metadata={"assembly": "assembly.usda"},
     )
 
-    res = api_client.publish_new(publish)
+    res = api_client.publish_new(version)
     print(res)
