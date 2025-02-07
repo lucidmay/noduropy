@@ -29,9 +29,10 @@ def main():
         thumbnail="thumbnail.png",
         metadata={"assembly": "assembly.usda"},
         properties={},
+        main_entry="assembly.usda"
     )
 
-    fullpath = "nodes-56b354c9-492d-4218-b90b-d86598c802ca&@root/crate1:wink/renders"
+    fullpath = "nodes-358c793c-9a59-4ac9-bd7a-2fb551746543&@root/assembly:myass/shots/seq:VK/shot:VK_1003/fx"
     tb, id = fullpath.split("&")
     component_node_id = Thing.from_str(tb, id)
     res = client.publish_new(publish, component_node_id)
